@@ -25,7 +25,7 @@ defineProps<{
                     </div>
                     <div class="radioWrapper">
                         <input type="radio" id="euro" name="paraBirimi" value="euro" />
-                        <label for="usd">EURO</label>
+                        <label for="euro">EURO</label>
                     </div>
                 </div>
             </div>

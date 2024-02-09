@@ -33,3 +33,21 @@ a,
     padding: 0 2rem;
   }
 }
+
+.RightWrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16.6rem 0;
+}
+
+@media (max-width: 1024px) {
+  .RightWrapper {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem 0;
+  }
+}

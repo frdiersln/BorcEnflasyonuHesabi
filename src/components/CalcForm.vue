@@ -10,7 +10,7 @@ defineProps<{
             <div class="formElem">
                 <label v-if="formType == 'dolarBazli'" for="borcTutari">Alınan/Verilen Dolar Miktarı:</label>
                 <label v-else for="borcTutari">Alınan/Verilen Borç Miktarı:</label>
-                <input type="number" id="borcTutari" placeholder="Borç Miktarı" />
+                <input type="number" id="borcTutari" placeholder="Borç Miktarı" oninput="if(this.value < 0) this.value = 0;" />
             </div>
             <div class="formElem" v-show="formType == 'enflasyonBazli'">
                 <label for="selectBox">Para Birim:</label>
@@ -30,8 +30,8 @@ defineProps<{
                 </div>
             </div>
             <div class="formElem">
-                <label for="datetime">Borç Alınma Tarihi:</label>
-                <input type="datetime-local" id="datetime" />
+                <label for="debtDate">Borç Alınma Tarihi:</label>
+                <input type="date" id="debtDate" :max="new Date().toISOString().split('T')[0]" />
             </div>
             
         </form>

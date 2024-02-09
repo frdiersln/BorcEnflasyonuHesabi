@@ -11,7 +11,7 @@ defineProps<{
                 <label for="borcTutari">Alınan/Verilen Borç Miktarı:</label>
                 <input type="number" id="borcTutari" placeholder="Borç Miktarı" />
             </div>
-            <div class="formElem">
+            <div class="formElem" v-show="formType == 'enflasyonBazli'">
                 <label for="selectBox">Para Birim:</label>
                 <select id="selectBox">
                 <option value="dolar">Dolar</option>

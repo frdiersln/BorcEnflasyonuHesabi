@@ -33,7 +33,6 @@ export default defineComponent({
     flex-direction: column;
     align-items: center;
     margin-top: 2rem;
-    border: 1px solid red;
   }
 }
 </style>

@@ -10,9 +10,6 @@ export default defineComponent({
 
 <template>
   <div class="RightWrapper">
-    <div class="inPageHeader">
-      <h1>Enflasyon Bazlı Hesap Sayfası</h1>
-    </div>  
     <CalcForm formType="enflasyonBazli" />
   </div>
 </template>

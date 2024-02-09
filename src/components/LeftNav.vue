@@ -32,10 +32,13 @@ header {
 }
 
 nav {
+  display:flex;
+  justify-content: center;
   width: 100%;
   font-size: 12px;
   text-align: center;
   margin-top: 2rem;
+  flex-wrap: nowrap;
 }
 
 nav a.router-link-exact-active {
@@ -90,10 +93,11 @@ h3 {
   }
 
   nav {
+    justify-content: flex-start;
     text-align: left;
     margin-left: -1rem;
     font-size: 1rem;
-
+    flex-wrap: wrap;
     padding: 1rem 0;
     margin-top: 1rem;
   }

@@ -1,5 +1,4 @@
 <script lang="ts">
-
 export default {
     name: 'CalcForm',
     props: {
@@ -8,18 +7,68 @@ export default {
             required: true
         }
     },
+    data() {
+        return {
+            datedRate: 0, // this will be fetched from the API
+            todaysRate: 0, // this will be fetched from the API
+            borcTutari: 0,
+            tl: true, // its true because default selected currency is TL
+            usd: false,
+            euro: false,
+            debtDate: (new Date).toString().slice(0, 15)
+        }
+    },
     methods: {
-		fetchData() {
-			fetch('https://api.allorigins.win/raw?url=https://www.tcmb.gov.tr/kurlar/202402/09022024.xml')
-      .then(response => response.text())
-      .then(data => {
-        console.log("1 Dolar " + data.split('ABD DOLARI')[1].split('<BanknoteSelling>')[1].split('</BanknoteSelling>')[0] + " TL");
-      })
-      .catch(error => console.error('Error:', error));
-		}
-	}
+		async fetchDatedRate() {
+            var date = this.debtDate.split('-');
+            let year = date[0];
+            let month = date[1];
+            let day = date[2];
+			await fetch('https://thingproxy.freeboard.io/fetch/https://www.tcmb.gov.tr/kurlar/'+year+month+'/'+day+month+year+'.xml')
+            .then(response => response.text())
+            .then(data => {
+                let datedRateTemp = data.split('ABD DOLARI')[1].split('<BanknoteSelling>')[1].split('</BanknoteSelling>')[0];
+                this.datedRate = parseFloat(datedRateTemp.split('.')[0] +'.'+ datedRateTemp.split('.')[1].slice(0, 2)); // got first 2 digits from decimal part of rate (like 8.1234 and convert it to 8.12)
+                return this.datedRate;
+            })
+            .catch(error => console.error('Error:', error));
+		},
+        async fetchTodaysRate() {
+            await fetch('https://api.exchangerate-api.com/v4/latest/USD')
+            .then(response => response.json())
+            .then(data => {
+                this.todaysRate = data.rates.TRY;
+                return this.todaysRate;
+            })
+            .catch(error => console.error('Error:', error));
+        },
+        async calculate() {
+            if (this.formType == 'dolarBazli') {
+                await this.fetchDatedRate();
+                await this.fetchTodaysRate();
+                var result = this.borcTutari / this.datedRate * this.todaysRate;
+                result = parseFloat(result.toString().split('.')[0]); 
+                console.log(this.borcTutari, this.datedRate, this.todaysRate ,result);
+            }
+            else if (this.formType == 'enflasyonBazli'){
+                console.log(this.borcTutari);
+                if(this.tl) {
+                    console.log('TL');
+                } else if(this.usd) {
+                    console.log('USD');
+                } else if(this.euro) {
+                    console.log('EURO');
+                }
+                console.log(this.debtDate);
+            }
+        }
+	},
+    computed: {
+        isButtonDisabled() {
+        return ( !this.borcTutari || (this.debtDate == (new Date).toString().slice(0, 15)) );
+        }
+    }
 };
-
 </script>
 
 <template>
@@ -28,31 +77,31 @@ export default {
             <div class="formElem">
                 <label v-if="formType == 'dolarBazli'" for="borcTutari">Alınan/Verilen Dolar Miktarı:</label>
                 <label v-else for="borcTutari">Alınan/Verilen Borç Miktarı:</label>
-                <input type="number" id="borcTutari" placeholder="Borç Miktarı" oninput="if(this.value < 0) this.value = 0;" />
+                <input v-model="borcTutari" type="number" id="borcTutari" placeholder="Borç Miktarı" oninput="if(this.value < 0) this.value = 0;" />
             </div>
             <div class="formElem" v-show="formType == 'enflasyonBazli'">
                 <label for="selectBox">Para Birim:</label>
                 <div class="radiosWrapper">
                     <div  class="radioWrapper">
-                        <input checked type="radio" id="tl" name="paraBirimi" value="tl" />
+                        <input v-model="tl" checked type="radio" id="tl" name="paraBirimi" value="tl" />
                         <label for="tl">TL</label>
                     </div>
                     <div class="radioWrapper">
-                        <input type="radio" id="usd" name="paraBirimi" value="usd" />
+                        <input v-model="usd" type="radio" id="usd" name="paraBirimi" value="usd" />
                         <label for="usd">USD</label>
                     </div>
                     <div class="radioWrapper">
-                        <input type="radio" id="euro" name="paraBirimi" value="euro" />
+                        <input v-model="euro" type="radio" id="euro" name="paraBirimi" value="euro" />
                         <label for="euro">EURO</label>
                     </div>
                 </div>
             </div>
             <div class="formElem">
                 <label for="debtDate">Borç Alınma Tarihi:</label>
-                <input type="date" id="debtDate" :max="new Date().toISOString().split('T')[0]" />
+                <input v-model="debtDate" type="date" id="debtDate" :max="new Date().toISOString().split('T')[0]" />
             </div>
         </form>
-        <button @click="fetchData"> HESAPLA </button>
+        <button :disabled="isButtonDisabled" @click="calculate"> HESAPLA </button>
     </div>
 </template>
 
@@ -62,6 +111,8 @@ export default {
     width: 80%;
     height: auto;
     border-radius: 35px;
+     border-bottom-left-radius: 10px; /* same radius with "HESAPLA" btn */
+    border-bottom-right-radius: 10px;
     background: linear-gradient(145deg, var(--color-background-soft), var(--color-background));
     box-shadow:  11px 11px 24px var(--color-background-soft), -11px -11px 24px var(--color-background);
 }
@@ -146,4 +197,10 @@ export default {
 .formWrapper button:hover {
     background-color: hsla(160, 100%, 37%, 0.66);
 }
+
+.formWrapper button:disabled {
+    background-color: hsla(160, 100%, 37%, 0.16);
+    cursor: not-allowed;
+}
+
 </style>

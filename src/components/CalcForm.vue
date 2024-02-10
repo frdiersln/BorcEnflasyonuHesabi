@@ -1,7 +1,25 @@
-<script setup lang="ts">
-defineProps<{
-  formType: string
-}>()
+<script lang="ts">
+
+export default {
+    name: 'CalcForm',
+    props: {
+        formType: {
+            type: String,
+            required: true
+        }
+    },
+    methods: {
+		fetchData() {
+			fetch('https://api.allorigins.win/raw?url=https://www.tcmb.gov.tr/kurlar/202402/09022024.xml')
+      .then(response => response.text())
+      .then(data => {
+        console.log("1 Dolar " + data.split('ABD DOLARI')[1].split('<BanknoteSelling>')[1].split('</BanknoteSelling>')[0] + " TL");
+      })
+      .catch(error => console.error('Error:', error));
+		}
+	}
+};
+
 </script>
 
 <template>
@@ -33,8 +51,8 @@ defineProps<{
                 <label for="debtDate">Borç Alınma Tarihi:</label>
                 <input type="date" id="debtDate" :max="new Date().toISOString().split('T')[0]" />
             </div>
-            
         </form>
+        <button @click="fetchData"> HESAPLA </button>
     </div>
 </template>
 
@@ -42,15 +60,14 @@ defineProps<{
 
 .formWrapper {
     width: 80%;
-    height: fit-content;
+    height: auto;
     border-radius: 35px;
     background: linear-gradient(145deg, var(--color-background-soft), var(--color-background));
     box-shadow:  11px 11px 24px var(--color-background-soft), -11px -11px 24px var(--color-background);
 }
 .formWrapper form {
     width: 100%;
-    height: fit-content;
-    height: 100%;
+    height: auto;
     padding: 41px 26px;
     display: flex;
     flex-direction: column;
@@ -103,7 +120,7 @@ defineProps<{
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    width: fit-content;
+    width: auto;
 }
 
 .formWrapper form .formElem .radiosWrapper .radioWrapper input {
@@ -112,4 +129,21 @@ defineProps<{
     margin-right: 4px;
 }
 
+.formWrapper button {
+    width: 100%;
+    height: auto;
+    padding: 10px;
+    border-radius: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border: none;
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--color-text);
+    background-color: hsla(160, 100%, 37%, 0.41);
+    cursor: pointer;
+}
+.formWrapper button:hover {
+    background-color: hsla(160, 100%, 37%, 0.66);
+}
 </style>

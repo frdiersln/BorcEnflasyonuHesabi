@@ -1,11 +1,10 @@
 <script lang="ts">
 import CalcForm from '@/components/CalcForm.vue';
 
-import { defineComponent } from 'vue';
-export default defineComponent({
+export default {
     name: 'EnflasyonBazliHesapView',
     components: { CalcForm }
-});
+	};
 </script>
 
 <template>

@@ -6,7 +6,7 @@ defineProps<{
 
 <template>
   <header>
-    <img alt="Vue logo" class="logo" src="../../public/favicon.ico" width="256" height="256" />
+    <img alt="Vue logo" class="logo" src="/favicon.ico" width="256" height="256" />
 
     <div class="wrapper">
       <div class="greetings">

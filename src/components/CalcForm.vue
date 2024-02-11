@@ -15,7 +15,7 @@ export default {
             tl: true, // its true because default selected currency is TL
             usd: false,
             euro: false,
-            debtDate: (new Date).toString().slice(0, 15)
+            debtDate: (new Date).toString().slice(0, 15) // null is not working in methods, so I used today's date instead of null
         }
     },
     methods: {
@@ -47,7 +47,12 @@ export default {
                 await this.fetchDatedRate();
                 await this.fetchTodaysRate();
                 var result = this.borcTutari / this.datedRate * this.todaysRate;
-                result = parseFloat(result.toString().split('.')[0]); 
+                if(result < 1){
+                    result = parseFloat(result.toString().slice(0,4)); // got first 4 digits of result (like 0.1234 and convert it to 0.12)
+                }
+                else{
+                    result = parseFloat(result.toString().split('.')[0]); // got integer part of result (like 123.456 and convert it to 123)
+                }
                 console.log(this.borcTutari, this.datedRate, this.todaysRate ,result);
             }
             else if (this.formType == 'enflasyonBazli'){

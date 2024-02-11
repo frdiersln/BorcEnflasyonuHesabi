@@ -15,7 +15,8 @@ export default {
             tl: true, // its true because default selected currency is TL
             usd: false,
             euro: false,
-            debtDate: (new Date).toString().slice(0, 15) // null is not working in methods, so I used today's date instead of null
+            debtDate: (new Date).toString().slice(0, 15), // null is not working in methods, so I used today's date instead of null
+            results: [] as any[] // this will be passed to DolarBazliHesapView
         }
     },
     methods: {
@@ -53,7 +54,8 @@ export default {
                 else{
                     result = parseFloat(result.toString().split('.')[0]); // got integer part of result (like 123.456 and convert it to 123)
                 }
-                this.$emit('passResults', [this.borcTutari, this.datedRate, this.todaysRate, result] ); // pass the results to DolarBazliHesapView (or any other parent)
+                this.results.push([this.borcTutari, this.datedRate, this.todaysRate, result]);
+                this.$emit('passResults', this.results ); // pass the results to DolarBazliHesapView (or any other parent)
             }
             else if (this.formType == 'enflasyonBazli'){
                 console.log(this.borcTutari);
@@ -80,8 +82,8 @@ export default {
     <div class="formWrapper">
         <form>
             <div class="formElem">
-                <label v-if="formType == 'dolarBazli'" for="borcTutari">Alınan/Verilen Dolar Miktarı:</label>
-                <label v-else for="borcTutari">Alınan/Verilen Borç Miktarı:</label>
+                <label v-if="formType == 'dolarBazli'" for="borcTutari">Borç Miktarı:</label>
+                <label v-else for="borcTutari">Borç Miktarı:</label>
                 <input v-model="borcTutari" type="number" id="borcTutari" placeholder="Borç Miktarı" oninput="if(this.value < 0) this.value = 0;" />
             </div>
             <div class="formElem" v-show="formType == 'enflasyonBazli'">
@@ -102,7 +104,7 @@ export default {
                 </div>
             </div>
             <div class="formElem">
-                <label for="debtDate">Borç Alınma Tarihi:</label>
+                <label for="debtDate">Borç Tarihi:</label>
                 <input v-model="debtDate" type="date" id="debtDate" :max="new Date().toISOString().split('T')[0]" />
             </div>
         </form>
@@ -116,10 +118,9 @@ export default {
     width: 80%;
     height: auto;
     border-radius: 35px;
-     border-bottom-left-radius: 10px; /* same radius with "HESAPLA" btn */
-    border-bottom-right-radius: 10px;
+     border-bottom-left-radius: 6px; /* same radius with "HESAPLA" btn */
+    border-bottom-right-radius: 6px;
     background: linear-gradient(145deg, var(--color-background-soft), var(--color-background));
-    box-shadow:  11px 11px 24px var(--color-background-soft), -11px -11px 24px var(--color-background);
 }
 .formWrapper form {
     width: 100%;
@@ -146,7 +147,7 @@ export default {
 }
 
 .formWrapper form .formElem label {
-    font-size: 1rem;
+    font-size: 1.66rem;
     font-weight: 400;
     color: var(--color-text);
 }
@@ -179,6 +180,10 @@ export default {
     width: auto;
 }
 
+.formWrapper form .formElem .radiosWrapper .radioWrapper label {
+    font-size: 1rem;
+}
+
 .formWrapper form .formElem .radiosWrapper .radioWrapper input {
     width: 17px;
     height: 17px;
@@ -189,7 +194,7 @@ export default {
     width: 100%;
     height: auto;
     padding: 10px;
-    border-radius: 10px;
+    border-radius: 6px;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
     border: none;

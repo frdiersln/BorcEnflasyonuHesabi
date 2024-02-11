@@ -21,9 +21,16 @@ export default {
 <template>
   <div class="RightWrapper">
     <CalcForm formType="dolarBazli" @passResults="receiveResultsFromCalcForm" />
-    <div v-if="results.length == 4" class="Results">
-      <h2>Results</h2>
-      <p>Alınan/Verilen Borç: {{ results[0] }}TL Geçmiş Dolar Kuru: {{results[1]}}TL Güncel Dolar Kuru: {{ results[2] }}TL Hesaplanan Borç: {{ results[3] }}TL </p>
+    <div v-if="results.length > 0" class="results">
+      <div class="heading">
+        <h2>Sonuçlar</h2>
+      </div>
+      <div v-for="result in results" :key="result" class="row">
+        <div class="cell"><div class="label"> Borç Miktarı</div> <div class="value"> {{ result[0] }} </div></div>
+        <div class="cell"><div class="label"> Borç Tarihindeki Kur</div> <div class="value"> {{ result[1] }}</div></div>
+        <div class="cell"><div class="label"> Güncel Kur</div> <div class="value"> {{ result[2] }}</div></div>
+        <div class="cell"><div class="label"> Hesaplanan Borç</div> <div class="value"> {{ result[3] }}</div></div>
+      </div>
     </div>
   </div>
 </template>

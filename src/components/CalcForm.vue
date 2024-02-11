@@ -53,7 +53,7 @@ export default {
                 else{
                     result = parseFloat(result.toString().split('.')[0]); // got integer part of result (like 123.456 and convert it to 123)
                 }
-                console.log(this.borcTutari, this.datedRate, this.todaysRate ,result);
+                this.$emit('passResults', [this.borcTutari, this.datedRate, this.todaysRate, result] ); // pass the results to DolarBazliHesapView (or any other parent)
             }
             else if (this.formType == 'enflasyonBazli'){
                 console.log(this.borcTutari);

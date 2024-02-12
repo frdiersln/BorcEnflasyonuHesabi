@@ -16,7 +16,8 @@ export default {
             usd: false,
             euro: false,
             debtDate: (new Date).toString().slice(0, 15), // null is not working in methods, so I used today's date instead of null
-            results: [] as any[] // this will be passed to DolarBazliHesapView
+            results: [] as any[], // this will be passed to DolarBazliHesapView
+            calculating: false
         }
     },
     methods: {
@@ -45,6 +46,7 @@ export default {
         },
         async calculate() {
             if (this.formType == 'dolarBazli') {
+                this.calculating = true;
                 this.datedRate = 0;
                 this.todaysRate = 0;
                 await this.fetchDatedRate();
@@ -62,8 +64,10 @@ export default {
                     this.results.push([this.debtDate, this.borcTutari, this.datedRate, this.todaysRate, result]);
                     this.$emit('passResults', this.results ); // pass the results to DolarBazliHesapView (or any other parent)
                 }
+                this.calculating = false;
             }
             else if (this.formType == 'enflasyonBazli'){
+                this.calculating = true;
                 console.log(this.borcTutari);
                 if(this.tl) {
                     console.log('TL');
@@ -73,6 +77,7 @@ export default {
                     console.log('EURO');
                 }
                 console.log(this.debtDate);
+                this.calculating = false;
             }
         }
 	},
@@ -114,7 +119,7 @@ export default {
                 <input v-model="debtDate" type="date" id="debtDate" :max="new Date().toISOString().split('T')[0]" />
             </div>
         </form>
-        <button :disabled="isButtonDisabled" @click="calculate"> HESAPLA </button>
+        <button :disabled="isButtonDisabled" @click="calculate"> <i v-if="calculating" class="fa fa-circle-o-notch fa-spin"></i> HESAPLA </button>
     </div>
 </template>
 

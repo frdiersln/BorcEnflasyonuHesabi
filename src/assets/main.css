@@ -21,26 +21,24 @@ a,
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 1rem 0;
-  margin-top: 2rem;
 }
 
 .results {
   width: 80%;
   height: auto;
+  max-height: 50vh;
   border-radius: 35px;
   border-top-left-radius: 6px; /* same radius with form's bottom */
   border-top-right-radius: 6px;
   background: linear-gradient(145deg, var(--color-background-soft), var(--color-background));
   margin-top: 6px;
-  padding: 0 26px;
 }
 
 .results .heading {
   font-size: 1.6rem;
   font-weight: 600;
   text-align: center;
-  color: hsla(160, 100%, 37%, 0.66);
+  color: hsla(160, 100%, 37%, 0.41)  
 }
 
 .results .row {
@@ -48,9 +46,10 @@ a,
   position: relative;
   justify-content: space-between;
   align-items: center;
-  padding: 1.4rem 0;
+  padding: 1.4rem 26px;
   border-bottom: 1px solid hsla(160, 100%, 37%, 0.66);
   overflow: auto;
+  
 }
 
 .results .row:last-child {
@@ -60,7 +59,7 @@ a,
 .results .row .date{
   position: absolute;
   bottom: 2px;
-  right: 2px;
+  right: 14px;
   font-size: .66rem;
 }
 
@@ -92,9 +91,10 @@ a,
     padding: 0 2rem;
   }
 
-  .RightWrapper {
-    padding: 16.6rem 0;
+  .results {
+    overflow: auto;
   }
+
 }
 
 @media (hover: hover) {

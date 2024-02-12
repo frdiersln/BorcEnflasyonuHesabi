@@ -22,8 +22,9 @@ defineProps<{
 
 <style scoped>
 header {
-  line-height: 1.5;
-  max-height: 100vh;
+  line-height: 1.4;
+  height: fit-content;
+  margin-bottom: 1.4rem;
 }
 
 .logo {
@@ -34,10 +35,8 @@ header {
 nav {
   display:flex;
   justify-content: center;
-  width: 100%;
   font-size: 12px;
   text-align: center;
-  margin-top: 2rem;
   flex-wrap: nowrap;
 }
 
@@ -79,7 +78,8 @@ h3 {
   header {
     display: flex;
     place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
+    margin: auto;
+    width: 80%;
   }
 
   .logo {
@@ -99,7 +99,6 @@ h3 {
     font-size: 1rem;
     flex-wrap: wrap;
     padding: 1rem 0;
-    margin-top: 1rem;
   }
 
   .greetings h1,

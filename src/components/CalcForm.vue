@@ -45,17 +45,23 @@ export default {
         },
         async calculate() {
             if (this.formType == 'dolarBazli') {
+                this.datedRate = 0;
+                this.todaysRate = 0;
                 await this.fetchDatedRate();
                 await this.fetchTodaysRate();
-                var result = this.borcTutari / this.datedRate * this.todaysRate;
-                if(result < 1){
-                    result = parseFloat(result.toString().slice(0,4)); // got first 4 digits of result (like 0.1234 and convert it to 0.12)
+                if(this.datedRate == 0){
+                    alert("Lütfen haftasonları ve tatil günleri dışında bir tarih seçiniz!");
+                }else{
+                    var result = this.borcTutari / this.datedRate * this.todaysRate;
+                    if(result < 1){
+                        result = parseFloat(result.toString().slice(0,4)); // got first 4 digits of result (like 0.1234 and convert it to 0.12)
+                    }
+                    else{
+                        result = parseFloat(result.toString().split('.')[0]); // got integer part of result (like 123.456 and convert it to 123)
+                    }
+                    this.results.push([this.borcTutari, this.datedRate, this.todaysRate, result]);
+                    this.$emit('passResults', this.results ); // pass the results to DolarBazliHesapView (or any other parent)
                 }
-                else{
-                    result = parseFloat(result.toString().split('.')[0]); // got integer part of result (like 123.456 and convert it to 123)
-                }
-                this.results.push([this.borcTutari, this.datedRate, this.todaysRate, result]);
-                this.$emit('passResults', this.results ); // pass the results to DolarBazliHesapView (or any other parent)
             }
             else if (this.formType == 'enflasyonBazli'){
                 console.log(this.borcTutari);

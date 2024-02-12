@@ -59,7 +59,7 @@ export default {
                     else{
                         result = parseFloat(result.toString().split('.')[0]); // got integer part of result (like 123.456 and convert it to 123)
                     }
-                    this.results.push([this.borcTutari, this.datedRate, this.todaysRate, result]);
+                    this.results.push([this.debtDate, this.borcTutari, this.datedRate, this.todaysRate, result]);
                     this.$emit('passResults', this.results ); // pass the results to DolarBazliHesapView (or any other parent)
                 }
             }

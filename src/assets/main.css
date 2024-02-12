@@ -44,6 +44,7 @@ a,
 
 .results .row {
   display: flex;
+  position: relative;
   justify-content: space-between;
   align-items: center;
   padding: 1.4rem 0;
@@ -53,6 +54,13 @@ a,
 
 .results .row:last-child {
   border-bottom: none;
+}
+
+.results .row .date{
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  font-size: .66rem;
 }
 
 .results .row .cell {

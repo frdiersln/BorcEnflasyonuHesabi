@@ -26,10 +26,11 @@ export default {
         <h2>Sonuçlar</h2>
       </div>
       <div v-for="result in results" :key="result" class="row">
-        <div class="cell"><div class="label"> Borç Miktarı</div> <div class="value"> {{ result[0] }} </div></div>
-        <div class="cell"><div class="label"> Borç Tarihindeki Kur</div> <div class="value"> {{ result[1] }}</div></div>
-        <div class="cell"><div class="label"> Güncel Kur</div> <div class="value"> {{ result[2] }}</div></div>
-        <div class="cell"><div class="label"> Hesaplanan Borç</div> <div class="value"> {{ result[3] }}</div></div>
+        <div class="date"> {{ result[0] }} </div>
+        <div class="cell"><div class="label"> Borç Miktarı</div> <div class="value"> {{ result[1] }} </div></div>
+        <div class="cell"><div class="label"> Borç Tarihindeki Kur</div> <div class="value"> {{ result[2] }}</div></div>
+        <div class="cell"><div class="label"> Güncel Kur</div> <div class="value"> {{ result[3] }}</div></div>
+        <div class="cell"><div class="label"> Hesaplanan Borç</div> <div class="value"> {{ result[4] }}</div></div>
       </div>
     </div>
   </div>
